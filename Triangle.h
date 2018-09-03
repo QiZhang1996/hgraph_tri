@@ -17,6 +17,7 @@
 #include <fstream>
 #include <map>
 #include "tool.h"
+#include <algorithm>
 
 using namespace std;
 

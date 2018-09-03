@@ -89,12 +89,15 @@ int Triangle::readgraph(const char *str){
     fscanf(in ,"%d %d", &V, &E);
     graph.resize(V+1);
 
+
+
     int x = 0, y = 0;
 
 
     while(fscanf(in, "%d %d", &x, &y) != EOF){
-
-        insertEdge(x+1, y+1);
+        //cout << "insert V" << x << " and V" << y;
+        insertEdge(x, y);
+        //cout << " success" << endl;
 
     }
 

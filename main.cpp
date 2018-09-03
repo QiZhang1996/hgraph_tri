@@ -101,9 +101,9 @@ int main() {
 ////    hindex2.print_getC();
 //    cout << endl;
 
-    Triangle hindex233;
-    hindex233.readgraph("../dolphins.txt");
-    cout << "t = " << hindex233.getT() << endl;
+    //Triangle hindex233;
+    //hindex233.readgraph("../out.txt");
+    //cout << "t = " << hindex233.getT() << endl;
     //hindex233.print_getP();
 
 //    for(int i = 1; i <= hindex233.V; i++){
@@ -120,41 +120,87 @@ int main() {
 //
 //    }
 
-//    int x = 0;
-//    for(int i = 1; i <= hindex233.V; i++){
-//
-//        cout << "i = " << i << ": ";
-//
-//        for(vector<int>::iterator it = hindex233.graph[i].begin(); it != hindex233.graph[i].end(); it++){
-//            for(vector<int>::iterator it2 = it+1; it2 != hindex233.graph[i].end(); it2++){
-//
-//                EdgeClass pair1(*it,*it2), pair2(*it2, *it);
-//                if(hindex233.EdgeMap.find(pair1) != hindex233.EdgeMap.end() || hindex233.EdgeMap.find(pair2) != hindex233.EdgeMap.end()){
-//
-//                    if(*it > *it2){
-//
-//                        cout << "(" << *it2 <<", " << *it << "), ";
-//
-//                    }
-//                    else{
-//                        cout << "(" << *it <<", " << *it2 << "), ";
-//
-//                    }
-//                    x = x+1;
-//
-//                }
-//
-//            }
-//
-//
-//        }
-//        cout << endl;
+    int V = 0;
+    int E = 0;
+    vector<vector<int>> p;
+    FILE *in = fopen("../out.txt", "r");
+    if(in == NULL){
+
+        cout << "files not exist" << endl;
+        exit(1);
+
+    }
+
+    fscanf(in ,"%d %d", &V, &E);
+    p.resize(V+1);
 
 
 
-//    }
-//
-//
-//    cout << x/3 << endl;
+    int x = 0, y = 0;
+    unordered_map<EdgeClass, int, EdgeHash, EdgeEqualTo> map;
+
+    while(fscanf(in, "%d %d", &x, &y) != EOF){
+        //cout << "insert V" << x << " and V" << y;
+        int pl,pr;
+        if(x > y){
+            pl = y;
+            pr = x;
+        } else{
+
+            pl = x;
+            pr = y;
+        }
+        EdgeClass edge(pl, pr);
+        map[edge] = 1;
+
+        p[x].emplace_back(y);
+        p[y].emplace_back(x);
+        //insertEdge(x, y);
+        //cout << " success" << endl;
+
+    }
+
+    fclose(in);
+
+    int xx = 0;
+    int yy = 0;
+    for(int i = 1; i <= V; i++){
+
+        cout << "i = " << i << ": ";
+        yy = 0;
+
+        for(vector<int>::iterator it = p[i].begin(); it !=p[i].end(); it++){
+            for(vector<int>::iterator it2 = it+1; it2 != p[i].end(); it2++){
+
+                EdgeClass pair1(*it,*it2), pair2(*it2, *it);
+                if(map.find(pair1) != map.end() || map.find(pair2) != map.end()){
+
+                    if(*it > *it2){
+
+                        cout << "(" << *it2 <<", " << *it << "), ";
+
+                    }
+                    else{
+                        cout << "(" << *it <<", " << *it2 << "), ";
+
+                    }
+                    xx = xx+1;
+                    yy = yy+1;
+
+                }
+
+            }
+
+
+        }
+        cout << endl;
+        cout <<"count: --------------------------------------------------" << yy << endl;
+
+
+
+    }
+
+
+    cout << x/3 << endl;
     return 0;
 }
